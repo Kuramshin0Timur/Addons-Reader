@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Управление читалкой</title>
     <link rel="stylesheet" href="popup.css">
 </head>
+
 <body>
     <div class="popup-container">
         <div class="header">
             <h1>📖 Читалка</h1>
             <p>EPUB, FB2, DOCX</p>
         </div>
-        
+
         <div class="section">
             <h3>Быстрый доступ</h3>
-            <button id="open-local" class="btn primary">
-                📁 Открыть локальный файл
-            </button>
-            <button id="open-url" class="btn secondary">
-                🌐 Открыть по ссылке
-            </button>
+            <button id="open-local" class="btn primary">📁 Открыть локальный файл</button>
+            <button id="open-url" class="btn secondary">🌐 Открыть по ссылке</button>
         </div>
-        
+
         <div class="section">
             <h3>Настройки чтения</h3>
             <div class="setting-group">
@@ -34,7 +32,7 @@
                     <option value="22">Гигантский</option>
                 </select>
             </div>
-            
+
             <div class="setting-group">
                 <label>Шрифт:</label>
                 <select id="font-family">
@@ -45,31 +43,24 @@
                     <option value="system-ui">Системный</option>
                 </select>
             </div>
-            
+
             <div class="setting-group">
                 <label>Тема:</label>
                 <select id="theme">
                     <option value="light">Светлая</option>
                     <option value="dark">Темная</option>
-                    <option value="auto">Авто</option>
+                    <option value="sepia">Сепия</option>
                 </select>
             </div>
         </div>
-        
-        <div class="section">
-            <h3>Последние файлы</h3>
-            <div id="recent-files" class="recent-files">
-                <p class="empty">Нет recent файлов</p>
-            </div>
-        </div>
-        
+
         <div class="footer">
             <button id="reset-settings" class="btn link">Сбросить настройки</button>
         </div>
     </div>
-    
+
     <input type="file" id="file-input" accept=".epub,.fb2,.docx,.doc" style="display: none;">
-    
     <script src="popup.js"></script>
 </body>
+
 </html>

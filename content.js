@@ -1,28 +1,28 @@
-// Контент-скрипт для перехвата кликов на файлы
-document.addEventListener('click', (event) => {
-  const link = event.target.closest('a');
-  if (link && link.href) {
-    const href = link.href.toLowerCase();
+// Контент-скрипт для перехвата кликов
+(function () {
+  console.log('Content script loaded');
 
-    // Проверяем, ведет ли ссылка на поддерживаемый файл
-    if (href.match(/\.(epub|fb2|docx|doc)$/)) {
-      console.log('Найдена ссылка на книгу:', link.href);
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a');
+    if (link && link.href) {
+      const href = link.href.toLowerCase();
+      if (href.match(/\.(epub|fb2|docx|doc)$/)) {
+        console.log('Найдена ссылка на книгу:', link.href);
+        event.preventDefault();
+        event.stopPropagation();
 
-      // Предлагаем открыть в читалке
-      event.preventDefault();
-      event.stopPropagation();
+        const filename = link.textContent || link.href.split('/').pop() || 'Книга';
+        const openInReader = confirm(`Открыть "${filename}" в читалке?`);
 
-      const openInReader = confirm('Открыть этот файл в читалке?');
-      if (openInReader) {
-        // Отправляем сообщение фоновому скрипту
-        chrome.runtime.sendMessage({
-          action: 'openInReader',
-          url: link.href,
-          filename: link.textContent || 'Книга'
-        });
+        if (openInReader) {
+          chrome.runtime.sendMessage({
+            action: 'openInReader',
+            url: link.href,
+            filename: filename
+          });
+        }
+        return false;
       }
-
-      return false;
     }
-  }
-}, true);
+  }, true);
+})();

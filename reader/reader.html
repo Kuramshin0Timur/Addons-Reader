@@ -1,51 +1,31 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Читалка - Загрузка...</title>
+    <title>Читалка</title>
     <link rel="stylesheet" href="reader.css">
-    
-    <!-- Подключаем локальные библиотеки -->
-    <script src="../lib/jszip.min.js"></script>
-    <script src="../lib/epub.min.js"></script>
-    <script src="../lib/mammoth.browser.min.js"></script>
 </head>
+
 <body>
     <div class="reader-container">
-        <!-- Панель управления -->
         <header class="reader-header">
             <div class="header-left">
-                <button id="btn-back" class="btn-icon" title="Назад">
-                    ← Назад
-                </button>
+                <button id="btn-back" class="btn-icon" title="Назад">← Назад</button>
                 <h1 id="book-title" class="book-title">Загрузка...</h1>
             </div>
-            
             <div class="header-center">
-                <button id="btn-prev" class="btn-icon" title="Предыдущая страница">
-                    ◀
-                </button>
+                <button id="btn-prev" class="btn-icon">◀</button>
                 <span id="page-info" class="page-info">- / -</span>
-                <button id="btn-next" class="btn-icon" title="Следующая страница">
-                    ▶
-                </button>
+                <button id="btn-next" class="btn-icon">▶</button>
             </div>
-            
             <div class="header-right">
-                <button id="btn-toc" class="btn-icon" title="Оглавление">
-                    📑
-                </button>
-                <button id="btn-settings" class="btn-icon" title="Настройки">
-                    ⚙️
-                </button>
-                <button id="btn-fullscreen" class="btn-icon" title="Полный экран">
-                    ⛶
-                </button>
+                <button id="btn-settings" class="btn-icon">⚙️</button>
+                <button id="btn-fullscreen" class="btn-icon">⛶</button>
             </div>
         </header>
 
-        <!-- Панель настроек -->
         <div id="settings-panel" class="settings-panel hidden">
             <div class="settings-group">
                 <label>Размер шрифта:</label>
@@ -55,30 +35,16 @@
                     <button id="font-increase" class="btn-small">A+</button>
                 </div>
             </div>
-            
             <div class="settings-group">
                 <label>Шрифт:</label>
                 <select id="font-select">
                     <option value="Georgia">Georgia</option>
                     <option value="Arial">Arial</option>
                     <option value="Times New Roman">Times New Roman</option>
-                    <option value="Verdana">Verdana</option>
-                    <option value="system-ui">Системный</option>
                 </select>
             </div>
-            
             <div class="settings-group">
-                <label>Межстрочный интервал:</label>
-                <select id="line-height-select">
-                    <option value="1.4">Компактный</option>
-                    <option value="1.6" selected>Обычный</option>
-                    <option value="1.8">Просторный</option>
-                    <option value="2.0">Широкий</option>
-                </select>
-            </div>
-            
-            <div class="settings-group">
-                <label>Цветовая схема:</label>
+                <label>Тема:</label>
                 <div class="theme-buttons">
                     <button data-theme="light" class="theme-btn active">☀️ Светлая</button>
                     <button data-theme="dark" class="theme-btn">🌙 Темная</button>
@@ -87,37 +53,20 @@
             </div>
         </div>
 
-        <!-- Оглавление -->
-        <div id="toc-panel" class="toc-panel hidden">
-            <div class="toc-header">
-                <h3>Оглавление</h3>
-                <button id="toc-close" class="btn-close">×</button>
-            </div>
-            <div id="toc-list" class="toc-list">
-                <!-- Оглавление будет сгенерировано динамически -->
-            </div>
-        </div>
-
-        <!-- Основной контент -->
         <main class="content-area">
             <div id="loading" class="loading">
                 <div class="spinner"></div>
                 <p>Загрузка книги...</p>
             </div>
-            
-            <div id="book-content" class="book-content hidden">
-                <!-- Контент книги будет здесь -->
-            </div>
-            
+            <div id="book-content" class="book-content hidden"></div>
             <div id="error-message" class="error-message hidden">
                 <h2>😕 Не удалось загрузить книгу</h2>
-                <p id="error-text">Произошла ошибка при загрузке файла</p>
+                <p id="error-text">Произошла ошибка</p>
                 <button id="retry-btn" class="btn-primary">Попробовать снова</button>
-                <button id="demo-btn" class="btn-secondary">Показать демо-книгу</button>
+                <button id="demo-btn" class="btn-secondary">Демо-книга</button>
             </div>
         </main>
 
-        <!-- Прогресс-бар -->
         <footer class="reader-footer">
             <div class="progress-bar">
                 <div id="progress-fill" class="progress-fill"></div>
@@ -125,6 +74,11 @@
         </footer>
     </div>
 
+    <!-- Библиотеки - правильные относительные пути -->
+    <script src="lib/jszip.min.js"></script>
+    <script src="lib/epub.min.js"></script>
+    <script src="lib/mammoth.browser.min.js"></script>
     <script src="reader.js"></script>
 </body>
+
 </html>

@@ -1,13 +1,11 @@
 {
   "manifest_version": 2,
   "name": "Читалка EPUB/FB2/DOCX",
-  "version": "1.0.5",
+  "version": "1.0.10",
   "description": "Открывайте электронные книги и документы прямо в браузере",
   "permissions": [
     "storage",
     "activeTab",
-    "webRequest",
-    "webRequestBlocking",
     "<all_urls>"
   ],
   "background": {
@@ -40,15 +38,20 @@
     "reader/reader.html",
     "reader/reader.js",
     "reader/reader.css",
-    "popup/popup.html",
-    "popup/popup.js",
-    "popup/popup.css",
-    "lib/*",
+    "lib/jszip.min.js",
+    "lib/epub.min.js",
+    "lib/mammoth.browser.min.js",
     "icons/*"
   ],
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "reader@epub.fb2.docx",
+      "strict_min_version": "57.0"
+    }
   }
 }

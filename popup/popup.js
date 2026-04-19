@@ -1,3 +1,4 @@
+// Используем chrome API (работает везде)
 class PopupManager {
     constructor() {
         this.settings = {
@@ -5,6 +6,7 @@ class PopupManager {
             fontFamily: 'Georgia',
             theme: 'light'
         };
+        this.blobUrls = [];
         this.init();
     }
 
@@ -12,6 +14,10 @@ class PopupManager {
         await this.loadSettings();
         this.setupEventListeners();
         this.updateUI();
+
+        window.addEventListener('beforeunload', () => {
+            this.blobUrls.forEach(url => URL.revokeObjectURL(url));
+        });
     }
 
     async loadSettings() {
@@ -37,25 +43,22 @@ class PopupManager {
     }
 
     setupEventListeners() {
-        // Открытие локального файла
         document.getElementById('open-local').addEventListener('click', () => {
             document.getElementById('file-input').click();
         });
 
-        // Обработчик выбора файла
         document.getElementById('file-input').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 this.openLocalFile(file);
             }
+            e.target.value = '';
         });
 
-        // Открытие по URL
         document.getElementById('open-url').addEventListener('click', () => {
             this.openFromUrl();
         });
 
-        // Настройки
         document.getElementById('font-size').addEventListener('change', (e) => {
             this.settings.fontSize = parseInt(e.target.value);
             this.saveSettings();
@@ -71,7 +74,6 @@ class PopupManager {
             this.saveSettings();
         });
 
-        // Сброс настроек
         document.getElementById('reset-settings').addEventListener('click', () => {
             this.resetSettings();
         });
@@ -84,29 +86,36 @@ class PopupManager {
     }
 
     openLocalFile(file) {
-        // Для локальных файлов создаем Object URL
-        const url = URL.createObjectURL(file);
-        this.openInReader(url, file.name);
+        console.log('Открытие локального файла:', file.name);
+
+        const blobUrl = URL.createObjectURL(file);
+        this.blobUrls.push(blobUrl);
+
+        console.log('Создан blob URL:', blobUrl);
+
+        chrome.runtime.sendMessage({
+            action: 'openBlobInReader',
+            url: blobUrl,
+            filename: file.name
+        });
+
+        setTimeout(() => window.close(), 100);
     }
 
     openFromUrl() {
-        const url = prompt('Введите URL файла (EPUB, FB2, DOCX):', 'http://localhost:8000/test.fb2');
-        if (url) {
-            this.openInReader(url);
+        const url = prompt('Введите URL файла (EPUB, FB2, DOCX):');
+        if (url && url.trim()) {
+            chrome.runtime.sendMessage({
+                action: 'openInReader',
+                url: url.trim(),
+                filename: url.split('/').pop() || 'Книга'
+            });
+            window.close();
         }
     }
 
-    openInReader(fileUrl, filename = '') {
-        // Отправляем сообщение в background script для открытия файла
-        chrome.runtime.sendMessage({
-            action: 'openInReader',
-            url: fileUrl,
-            filename: filename
-        });
-    }
-
     async resetSettings() {
-        if (confirm('Вы уверены, что хотите сбросить все настройки?')) {
+        if (confirm('Сбросить настройки?')) {
             this.settings = {
                 fontSize: 16,
                 fontFamily: 'Georgia',
@@ -118,7 +127,6 @@ class PopupManager {
     }
 }
 
-// Инициализация при загрузке
 document.addEventListener('DOMContentLoaded', () => {
     new PopupManager();
 });

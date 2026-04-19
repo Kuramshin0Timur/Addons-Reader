@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0">
+  <description>
+    <title-info>
+      <book-title>Тестовая книга</book-title>
+      <author><first-name>Тестовый</first-name><last-name>Автор</last-name></author>
+      <genre>test</genre>
+    </title-info>
+    <document-info>
+      <author><first-name>Test</first-name><last-name>Author</last-name></author>
+      <date>2024-01-01</date>
+    </document-info>
+  </description>
+  <body>
+    <title><p>Тестовая книга</p></title>
+    <epigraph>
+      <p>Это тестовый файл для проверки работы читалки.</p>
+      <text-author>Тестовый автор</text-author>
+    </epigraph>
+    <section>
+      <title><p>Глава 1. Начало</p></title>
+      <p>Это первая глава тестовой книги.</p>
+      <p>Если вы это видите, значит читалка работает правильно.</p>
+      <p>Вы можете менять размер шрифта, тему и другие настройки.</p>
+    </section>
+    <section>
+      <title><p>Глава 2. Продолжение</p></title>
+      <p>Вторая глава для проверки.</p>
+      <p>Поддерживаются различные элементы форматирования.</p>
+      <p><strong>Жирный текст</strong> и <em>курсив</em> также поддерживаются.</p>
+    </section>
+  </body>
+</FictionBook>

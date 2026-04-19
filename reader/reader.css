@@ -1,422 +1,136 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Добавить в конец файла reader.css */
 
-:root {
-    --primary-color: #667eea;
-    --bg-color: #ffffff;
-    --text-color: #333333;
-    --border-color: #e0e0e0;
-    --sidebar-bg: #f8f9fa;
-    --header-height: 60px;
-    --footer-height: 4px;
-}
-
-[data-theme="dark"] {
-    --bg-color: #1a1a1a;
-    --text-color: #e0e0e0;
-    --border-color: #444444;
-    --sidebar-bg: #2d2d2d;
-}
-
-[data-theme="sepia"] {
-    --bg-color: #fbf0d9;
-    --text-color: #5f4b32;
-    --border-color: #e0d0b8;
-    --sidebar-bg: #f5e8cc;
-}
-
-body {
-    font-family: 'Georgia', serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-    line-height: 1.6;
-}
-
-.reader-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-/* Header */
-.reader-header {
-    height: var(--header-height);
-    background: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    transition: all 0.3s ease;
-}
-
-.header-left,
-.header-center,
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.book-title {
-    font-size: 16px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 300px;
-}
-
-.page-info {
-    font-size: 14px;
-    color: #666;
-    min-width: 80px;
-    text-align: center;
-}
-
-[data-theme="dark"] .page-info {
-    color: #999;
-}
-
-.btn-icon {
-    background: none;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.2s ease;
-    color: var(--text-color);
-}
-
-.btn-icon:hover {
-    background: var(--sidebar-bg);
-    transform: translateY(-1px);
-}
-
-/* Settings Panel */
-.settings-panel {
-    background: var(--sidebar-bg);
-    border-bottom: 1px solid var(--border-color);
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.settings-panel:not(.hidden) {
-    display: grid;
-}
-
-.settings-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.settings-group label {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-color);
-}
-
-.font-size-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.font-size-value {
-    font-size: 14px;
-    min-width: 40px;
-    text-align: center;
-}
-
-.btn-small {
-    padding: 6px 12px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-color);
-    border-radius: 4px;
-    cursor: pointer;
-    color: var(--text-color);
-}
-
-.btn-small:hover {
-    background: var(--sidebar-bg);
-}
-
-select {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--bg-color);
-    color: var(--text-color);
-    cursor: pointer;
-}
-
-.theme-buttons {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.theme-btn {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--bg-color);
-    color: var(--text-color);
-    cursor: pointer;
-    flex: 1;
-    min-width: 80px;
-}
-
-.theme-btn.active {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-}
-
-/* Table of Contents */
-.toc-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 300px;
-    height: 100vh;
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--border-color);
-    z-index: 1000;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-}
-
-.toc-panel:not(.hidden) {
-    transform: translateX(0);
-}
-
-.toc-header {
-    padding: 20px;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.toc-header h3 {
-    font-size: 18px;
-}
-
-.btn-close {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--text-color);
-}
-
-.toc-list {
-    padding: 20px;
-    overflow-y: auto;
-    height: calc(100vh - 80px);
-}
-
-.toc-item {
-    padding: 8px 0;
-    cursor: pointer;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.toc-item:hover {
-    color: var(--primary-color);
-}
-
-.toc-item.active {
-    color: var(--primary-color);
-    font-weight: bold;
-}
-
-/* Content Area */
-.content-area {
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-}
-
-.loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* Стили для EPUB просмотрщика */
+.epub-viewer {
+    width: 100%;
     height: 100%;
-    gap: 20px;
+    overflow: hidden;
 }
 
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid var(--border-color);
-    border-left: 4px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+.epub-viewer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* Стили для FB2 */
+.section {
+    margin-bottom: 1.5em;
+}
+
+.poem {
+    margin: 1em 0;
+    padding-left: 2em;
+    font-style: italic;
+}
+
+.stanza {
+    margin: 0.5em 0;
+}
+
+.verse {
+    margin: 0.2em 0;
+}
+
+.annotation {
+    background: var(--sidebar-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-style: italic;
+}
+
+.image-placeholder {
+    background: var(--sidebar-bg);
+    padding: 20px;
+    text-align: center;
+    color: #999;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .book-content {
-    padding: 40px;
-    max-width: 800px;
-    margin: 0 auto;
-    height: calc(100vh - var(--header-height) - var(--footer-height));
-    overflow-y: auto;
+    animation: fadeIn 0.3s ease;
 }
 
-.book-content h1 {
-    font-size: 2em;
-    margin-bottom: 1em;
-    text-align: center;
+/* Улучшенный скроллбар для темной темы */
+[data-theme="dark"] .book-content::-webkit-scrollbar-track {
+    background: #2d2d2d;
 }
 
-.book-content h2 {
-    font-size: 1.5em;
-    margin: 1.5em 0 1em 0;
+[data-theme="dark"] .book-content::-webkit-scrollbar-thumb {
+    background: #555;
 }
 
-.book-content p {
-    margin-bottom: 1em;
-    text-align: justify;
+[data-theme="dark"] .book-content::-webkit-scrollbar-thumb:hover {
+    background: #666;
 }
 
-.book-content img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 1em auto;
-}
-
-/* Error Message */
-.error-message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-    gap: 20px;
-    padding: 40px;
-}
-
-.btn-primary {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.2s ease;
-}
-
-.btn-primary:hover {
-    background: #5a6fd8;
-}
-
-/* Footer */
-.reader-footer {
-    height: var(--footer-height);
-    background: var(--border-color);
-    position: relative;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--primary-color);
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-/* Utility Classes */
-.hidden {
-    display: none !important;
-}
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-
-/* Fullscreen */
-body:fullscreen .reader-header,
-body:-webkit-full-screen .reader-header,
-body:-moz-full-screen .reader-header {
-    position: fixed;
-    width: 100%;
-    top: 0;
-}
-
-/* Responsive */
+/* Адаптация для мобильных устройств */
 @media (max-width: 768px) {
-    .reader-header {
-        padding: 0 12px;
-    }
-    
-    .book-title {
-        max-width: 150px;
-    }
-    
     .book-content {
-        padding: 20px;
+        padding: 15px;
+        font-size: 14px;
     }
-    
-    .settings-panel {
-        grid-template-columns: 1fr;
-        gap: 16px;
+
+    .btn-icon {
+        padding: 6px 10px;
+        font-size: 14px;
     }
-    
-    .toc-panel {
-        width: 100%;
+
+    .book-title {
+        max-width: 120px;
+        font-size: 14px;
     }
 }
 
-/* Scrollbar */
-.book-content::-webkit-scrollbar {
-    width: 8px;
+/* Печать */
+@media print {
+
+    .reader-header,
+    .reader-footer,
+    .settings-panel,
+    .toc-panel,
+    .btn-icon {
+        display: none !important;
+    }
+
+    .book-content {
+        padding: 0;
+        margin: 0;
+        height: auto;
+        overflow: visible;
+    }
+
+    .reader-container {
+        height: auto;
+    }
 }
 
-.book-content::-webkit-scrollbar-track {
-    background: var(--sidebar-bg);
+/* Дополнительные стили для EPUB */
+#epub-viewer {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-.book-content::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 4px;
+#epub-viewer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
-.book-content::-webkit-scrollbar-thumb:hover {
-    background: #ccc;
-}
 .btn-secondary {
     background: #6c757d;
     color: white;
@@ -424,7 +138,6 @@ body:-moz-full-screen .reader-header {
     padding: 10px 20px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
     margin-left: 10px;
 }
 
