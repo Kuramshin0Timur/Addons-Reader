@@ -1,0 +1,54 @@
+{
+  "manifest_version": 2,
+  "name": "Читалка EPUB/FB2/DOCX",
+  "version": "1.0.5",
+  "description": "Открывайте электронные книги и документы прямо в браузере",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Управление читалкой",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    "reader/reader.html",
+    "reader/reader.js",
+    "reader/reader.css",
+    "popup/popup.html",
+    "popup/popup.js",
+    "popup/popup.css",
+    "lib/*",
+    "icons/*"
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
